@@ -15,10 +15,27 @@ namespace CadastroData.Controllers
     {
         private CadastroDataContext db = new CadastroDataContext();
 
+
         // GET: Pessoas1
+        [HttpGet]
         public ActionResult Index()
         {
             return View(db.Pessoas.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult Index(string Nome)
+        {
+
+            var pesquisa = from m in db.Pessoas
+                 select m;
+
+             if (!String.IsNullOrEmpty(Nome))
+             {
+                pesquisa = pesquisa.Where(s => s.Nome.Contains(Nome));
+             }
+
+            return View(pesquisa);
         }
 
         // GET: Pessoas1/Details/5
